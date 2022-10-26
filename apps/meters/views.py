@@ -64,6 +64,14 @@ class ListCustomersMetersAPIView(generics.ListAPIView):
         )  ### Getting all meters of a certain user/customer
         return queryset
 
+class MeterDetailView(APIView):
+    def get(self, request, slug):
+        meter = MeterManagement.objects.get(slug=slug)
+
+        serializer = MeterManagementSerializer(meter, context={"request": request})
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 #### Function based view of update
 @api_view(["PUT"])
