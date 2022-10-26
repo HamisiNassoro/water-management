@@ -68,7 +68,7 @@ class ListCustomersMetersAPIView(generics.ListAPIView):
 #### Function based view of update
 @api_view(["PUT"])
 @permission_classes([permissions.IsAuthenticated])
-def update_property_api_view(request, slug):
+def update_meter_api_view(request, slug):
     try:
         meter = MeterManagement.objects.get(slug=slug)
     except MeterManagement.DoesNotExist:
@@ -112,7 +112,7 @@ def create_meter_api_view(request):
 ### Function based view for deleting
 @api_view(["DELETE"])
 @permission_classes([permissions.IsAuthenticated])
-def delete_property_api_view(request, slug):
+def delete_meter_api_view(request, slug):
     try:
         meter = MeterManagement.objects.get(slug=slug)
     except MeterManagement.DoesNotExist:
