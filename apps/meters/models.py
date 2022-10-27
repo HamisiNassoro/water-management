@@ -78,7 +78,7 @@ class MeterManagement(TimeStampedUUIDModel):
         default=MeterType.MECHANICAL,
     )
     site_type = models.CharField(
-        verbose_name=_("Property Type"),
+        verbose_name=_("Site Type"),
         max_length=50,
         choices=SiteType.choices,
         default=SiteType.OTHER,
