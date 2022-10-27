@@ -25,7 +25,7 @@ urlpatterns = [
     path("api/v1/auth/", include("djoser.urls.jwt")),
     path("api/profile/", include("apps.profiles.urls")),
     path("api/meter/", include("apps.meters.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] ## + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) ### this is for local use if using docker service on NGINX can be commented out
 
 
 admin.site.site_header = "Water Management Admin"
