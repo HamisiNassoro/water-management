@@ -10,6 +10,7 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = "info@water-management.com"
 DOMAIN = env("DOMAIN")
 SITE_NAME = "Water Management"
+APP_HOST=env("APP_HOST")
 
 
 DATABASES = {
