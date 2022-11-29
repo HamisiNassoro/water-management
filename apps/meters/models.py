@@ -1,5 +1,6 @@
 import random
 import string
+from django.utils import timezone
 from autoslug import AutoSlugField
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator
@@ -36,7 +37,7 @@ class MeterManagement(TimeStampedUUIDModel):
     user = models.ForeignKey(
         User,
         verbose_name=_("Site Manager,Meter Reader or Customer"),
-        related_name="agent_buyer",
+        related_name="meter_owner",
         on_delete=models.DO_NOTHING,
     )
 
@@ -92,7 +93,7 @@ class MeterManagement(TimeStampedUUIDModel):
     read = MeterReadManager()
 
     def __str__(self):
-        return self.name
+        return self.ref_code
 
     class Meta:
         verbose_name = "Meter"
@@ -112,3 +113,81 @@ class MeterManagement(TimeStampedUUIDModel):
     def final_meter_price(self):
         current_reading = self.current_reading
         initial_reading = self.initial_reading
+
+class UsageRate(models.Model):
+    eff_date = models.DateField(verbose_name='Effective Date')
+
+    def __str__(self):
+        return f'{self.eff_date}'
+
+    class Meta:
+        verbose_name = "Usage Rate"
+        verbose_name_plural = "Usage Rates"
+
+class UnitRate(models.Model):
+    usage_rate = models.ForeignKey(UsageRate, on_delete=models.PROTECT)
+    meter = models.ForeignKey(MeterManagement, on_delete=models.PROTECT)
+    units = models.PositiveIntegerField()
+    rate = models.DecimalField(
+        verbose_name=_("Rate"), max_digits=8, decimal_places=2, default=0.0
+    )
+    def __str__(self):
+        return f'{self.meter} {self.units}'
+
+    class Meta:
+        verbose_name = "Unit Rate"
+        verbose_name_plural = "Unit Rates"
+
+class MeterReading(models.Model):
+    date = models.DateField(default=timezone.now)
+    meter = models.ForeignKey(MeterManagement, on_delete=models.PROTECT)
+    reader = models.ForeignKey(
+        User,
+        verbose_name=_("Meter Reader"),
+        related_name="meter_read",
+        on_delete=models.DO_NOTHING,
+    )
+    reading = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'{self.meter} {self.date} {self.reader} {self.reading}'
+
+    class Meta:
+        verbose_name = "Meter Reading"
+        verbose_name_plural = "Meter Readings"
+
+    @property
+    def previous_reading(self):
+        reading = MeterReading.objects.filter(meter=self.meter,
+                                              date__lt=self.date).values_list('reading', flat=True).order_by(
+            '-date').first()
+        return reading
+
+    @property
+    def usage(self):
+        if self.previous_reading is None:
+            return self.reading
+        else:
+            return self.reading - self.previous_reading
+
+    @property
+    def cost(self):
+        usage_rate = UsageRate.objects.filter(eff_date__lte=self.date).order_by('-eff_date').first()
+        unit_rates = UnitRate.objects.filter(usage_rate=usage_rate).values_list('units', 'rate').order_by(
+            '-units')
+        unit_rates = unit_rates[::1]
+        usage = self.usage
+        cost = 0
+        for unit_rate in unit_rates:
+            units = unit_rate[0]
+            rate = unit_rate[1]
+            if usage > units:
+                used_units = usage - units
+                used_units_price = used_units * rate
+                cost += used_units_price
+                usage = usage - used_units
+        cost = round(cost, 2)
+        return cost
+
+    def __str__(self):
+        return f'{self.date} {self.meter}'
