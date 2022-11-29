@@ -1,7 +1,7 @@
 from django_countries.serializer_fields import CountryField
 from django_countries.serializers import CountryFieldMixin
 from rest_framework import serializers
-from .models import MeterManagement
+from .models import MeterManagement, UsageRate, UnitRate, MeterReading
 
 
 class MeterManagementSerializer(serializers.ModelSerializer):
@@ -39,3 +39,18 @@ class MeterManagementCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterManagement
         exclude = ["updated_at", "pkid"]
+
+class UsageRateCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsageRate
+        fields = "__all__"
+
+class UnitRateCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UnitRate
+        fields = "__all__"
+
+class MeterReadingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeterReading
+        fields = "__all__"
