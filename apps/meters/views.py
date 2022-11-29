@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from .exceptions import MeterNotFound
 from .models import MeterManagement
 from .pagination import MeterManagementPagination
-from .serializers import MeterManagementSerializer,MeterManagementCreateSerializer
+from .serializers import MeterManagementSerializer,MeterManagementCreateSerializer, UsageRateCreateSerializer,UnitRateCreateSerializer, MeterReadingCreateSerializer
 
 # Create your views here.
 
@@ -163,3 +163,60 @@ class MeterManagementSearchAPIView(APIView):
         serializer = MeterManagementSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+
+### Function based view for creating UsageRate
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def create_usage_rate_api_view(request):
+    user = request.user
+    data = request.data
+    data["user"] = request.user.pkid
+    serializer = UsageRateCreateSerializer(data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        logger.info(
+            f"UsageRate {serializer.data.get('name')} created by {user.username}"
+        )
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+### Function based view for creating UniteRate
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def create_unit_rate_api_view(request):
+    user = request.user
+    data = request.data
+    data["user"] = request.user.pkid
+    serializer = UnitRateCreateSerializer(data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        logger.info(
+            f"UniteRate {serializer.data.get('name')} created by {user.username}"
+        )
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+### Function based view for creating MeterReading
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def create_unit_rate_api_view(request):
+    user = request.user
+    data = request.data
+    data["user"] = request.user.pkid
+    serializer = MeterReadingCreateSerializer(data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        logger.info(
+            f"MeterReading {serializer.data.get('name')} created by {user.username}"
+        )
+        return Response(serializer.data)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
