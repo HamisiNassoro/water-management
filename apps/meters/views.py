@@ -206,7 +206,7 @@ def create_unit_rate_api_view(request):
 ### Function based view for creating MeterReading
 @api_view(["POST"])
 @permission_classes([permissions.IsAuthenticated])
-def create_unit_rate_api_view(request):
+def create_meter_reading_api_view(request):
     user = request.user
     data = request.data
     data["user"] = request.user.pkid
