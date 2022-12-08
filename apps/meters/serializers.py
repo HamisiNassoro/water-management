@@ -43,14 +43,49 @@ class MeterManagementCreateSerializer(serializers.ModelSerializer):
 class UsageRateCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsageRate
+        fields = [
+            "id",
+            "eff_date",
+        ]
+
+class UsageRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UsageRate
         fields = "__all__"
 
 class UnitRateCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = UnitRate
+        fields = [
+            "id",
+            "usage_rate",
+            "meter",
+            "units",
+            "rate",
+        ]
+
+class UnitRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UnitRate
         fields = "__all__"
 
+
 class MeterReadingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeterReading
+        fields = [
+            "id",
+            "date",
+            "meter",
+            "reader",
+            "reading",
+            "previous_reading",
+            "usage",
+            "cost"
+        ]
+
+
+class MeterReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterReading
         fields = "__all__"
