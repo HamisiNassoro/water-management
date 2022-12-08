@@ -9,9 +9,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .exceptions import MeterNotFound
-from .models import MeterManagement
+from .models import MeterManagement,UnitRate,UsageRate,MeterReading
 from .pagination import MeterManagementPagination
-from .serializers import MeterManagementSerializer,MeterManagementCreateSerializer, UsageRateCreateSerializer,UnitRateCreateSerializer, MeterReadingCreateSerializer
+from .serializers import MeterManagementSerializer,MeterManagementCreateSerializer, UsageRateCreateSerializer,UnitRateCreateSerializer, MeterReadingCreateSerializer,UsageRateSerializer, UnitRateSerializer,MeterReadingSerializer
 
 # Create your views here.
 
@@ -183,6 +183,11 @@ def create_usage_rate_api_view(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class UsageRateListAPIView(generics.ListAPIView):
+    # permission_classes = [permissions.IsAuthenticated]
+    queryset = UsageRate.objects.all()
+    serializer_class = UsageRateSerializer
+
 
 ### Function based view for creating UniteRate
 @api_view(["POST"])
@@ -203,6 +208,12 @@ def create_unit_rate_api_view(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UnitRateListAPIView(generics.ListAPIView):
+    # permission_classes = [permissions.IsAuthenticated]
+    queryset = UnitRate.objects.all()
+    serializer_class = UnitRateSerializer
+
+
 ### Function based view for creating MeterReading
 @api_view(["POST"])
 @permission_classes([permissions.IsAuthenticated])
@@ -220,3 +231,8 @@ def create_meter_reading_api_view(request):
         return Response(serializer.data)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class MeterReadingListAPIView(generics.ListAPIView):
+    # permission_classes = [permissions.IsAuthenticated]
+    queryset = MeterReading.objects.all()
+    serializer_class = MeterReadingSerializer
