@@ -18,8 +18,11 @@ urlpatterns = [
     path("delete/<slug:slug>/", views.delete_meter_api_view, name="delete-meter"),
     path("search/", views.MeterManagementSearchAPIView.as_view(), name="meter-search"),
     path("usage-rate/", views.create_usage_rate_api_view, name="usage-rate-create"),
-    path("unit-rate", views.create_unit_rate_api_view, name="unit-rate-create"),
+    path("usage-rate/all/", views.UsageRateListAPIView.as_view(), name="all-usage-rate"),
+    path("unit-rate/", views.create_unit_rate_api_view, name="unit-rate-create"),
+    path("unit-rate/all/", views.UnitRateListAPIView.as_view(), name="all-unit-rate"),
     path("meter-reading/", views.create_meter_reading_api_view, name="meter-reading-create"),
+    path("meter-reading/all/", views.MeterReadingListAPIView.as_view(), name="all-meter-readings"),
     
 
 ]
