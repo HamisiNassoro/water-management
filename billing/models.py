@@ -1,4 +1,5 @@
 from django.db import models
+from base import fields as custom_fields
 
 from apps.meters.models import MeterManagement, UsageRate, UnitRate, MeterReading
 
@@ -8,6 +9,7 @@ class Billing(models.Model):
     unit_rate = models.ForeignKey(UnitRate,null=True,blank=True, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=8, decimal_places=2, editable=False)
     is_paid = models.BooleanField(default='False')
+    billing_date =models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return str(self.meter_reading)
@@ -19,11 +21,11 @@ class Billing(models.Model):
     
 
 class Payment(models.Model):
-    payment_id = models.CharField(max_length=55, null=True, blank=True)
-    billing = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)
+    payment_id =custom_fields.SUBField(max_length=20, prefix='MET-', null=True, blank=True)
+    bill = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)
     
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0.0)
     payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.meter)
+        return str(self.payment_id)
