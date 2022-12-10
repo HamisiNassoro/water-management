@@ -86,6 +86,7 @@ class MeterManagement(TimeStampedUUIDModel):
     )
     initial_reading = models.IntegerField(verbose_name=_("Initial Meter Reading"), default=0)
     current_reading = models.IntegerField(verbose_name=_("Current Meter Reading"), default=0)
+    meter_reading = models.IntegerField(default=0)
     read_status = models.BooleanField(
         verbose_name=_("Reading Status"), default=False
     )
@@ -93,7 +94,7 @@ class MeterManagement(TimeStampedUUIDModel):
     read = MeterReadManager()
 
     def __str__(self):
-        return self.ref_code
+        return str(self.meter_number)
 
     class Meta:
         verbose_name = "Meter"
