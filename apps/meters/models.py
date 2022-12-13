@@ -8,8 +8,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from apps.common.models import TimeStampedUUIDModel
-
-
+from base import fields as custom_fields
+from django.db import transaction
 # Create your models here.
 
 User = get_user_model()
@@ -23,6 +23,12 @@ class MeterReadManager(models.Manager):
             .filter(read_status=True)
         )  #### The queryset will be called only if the read_status is true
 
+class MeterTypes(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 class MeterManagement(TimeStampedUUIDModel):
     class MeterType(models.TextChoices):
         MECHANICAL = "Mechanical", _("Mechanical")
@@ -40,8 +46,9 @@ class MeterManagement(TimeStampedUUIDModel):
         related_name="meter_owner",
         on_delete=models.DO_NOTHING,
     )
-
+    type = models.ForeignKey(MeterTypes, null=True, blank=True, on_delete=models.PROTECT)
     name = models.CharField(verbose_name=_("Site Name"), max_length=250)
+    
     slug = AutoSlugField(
         populate_from="name", unique=True, always_update=True
     )  ### Means when name changes also update slug field
@@ -51,6 +58,7 @@ class MeterManagement(TimeStampedUUIDModel):
         unique=True,
         blank=True,
     )
+    meter_code = custom_fields.SUBField(max_length=10, prefix='MET-', null=True, blank=True)
     description = models.TextField(
         verbose_name=_("Description"),
         default="Default description...update me please....",
@@ -115,6 +123,36 @@ class MeterManagement(TimeStampedUUIDModel):
         current_reading = self.current_reading
         initial_reading = self.initial_reading
 
+class MeterMutationManager(models.Manager):
+    @transaction.atomic
+    def recalculate(self, from_:"MeterMutation"):
+        qs = self.filter(
+            meter = from_.meter, timestamp__gte=from_.timestamp, id__gt=from_.id
+        ).select_for_update()
+
+        prev = from_
+        for mutation in qs:
+            mutation.start_reading = prev.end_reading
+            mutation.litre_usage = mutation.end_reading - mutation.start_reading
+            mutation.save()
+            prev = mutation
+class MeterMutation(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    meter = models.ForeignKey(
+        MeterManagement,
+        null=True, 
+        blank=True,
+        on_delete=models.CASCADE
+    )
+    start_reading = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
+    timestamp = models.DateTimeField(default=timezone.now)
+    litre_usage = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
+    end_reading = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
+
+    objects = MeterMutationManager()
+
+    class Meta:
+        ordering = ('timestamp', 'pk')
 class UsageRate(models.Model):
     eff_date = models.DateField(verbose_name='Effective Date')
 
