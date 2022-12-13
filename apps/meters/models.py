@@ -100,7 +100,7 @@ class MeterManagement(TimeStampedUUIDModel):
     read = MeterReadManager()
 
     def __str__(self):
-        return str(self.meter_number)
+        return str(self.meter_code)
 
     class Meta:
         verbose_name = "Meter"
