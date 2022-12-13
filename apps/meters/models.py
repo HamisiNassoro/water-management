@@ -92,9 +92,7 @@ class MeterManagement(TimeStampedUUIDModel):
         choices=SiteType.choices,
         default=SiteType.OTHER,
     )
-    initial_reading = models.IntegerField(verbose_name=_("Initial Meter Reading"), default=0)
-    current_reading = models.IntegerField(verbose_name=_("Current Meter Reading"), default=0)
-    meter_reading = models.IntegerField(default=0)
+    
     read_status = models.BooleanField(
         verbose_name=_("Reading Status"), default=False
     )
