@@ -142,7 +142,8 @@ class MeterMutation(models.Model):
         MeterManagement,
         null=True, 
         blank=True,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="mutations"
     )
     start_reading = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
     timestamp = models.DateTimeField(default=timezone.now)
