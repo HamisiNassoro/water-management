@@ -96,6 +96,9 @@ class MeterManagement(TimeStampedUUIDModel):
     read_status = models.BooleanField(
         verbose_name=_("Reading Status"), default=False
     )
+
+    initial_reading = models.DecimalField(max_digits=12, decimal_places=4, default=0.0)
+    current_reading = models.DecimalField(max_digits=12, decimal_places=4, default=0.0)
     objects = models.Manager()
     read = MeterReadManager()
 
