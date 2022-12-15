@@ -10,6 +10,7 @@ class Billing(models.Model):
     amount = models.DecimalField(max_digits=8, decimal_places=2, editable=False)
     is_paid = models.BooleanField(default='False')
     billing_date =models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    bill_code = custom_fields.SUBField(max_length=20, prefix='BILL-', null=True, blank=True)
 
     def __str__(self):
         return str(self.meter_reading)
@@ -21,9 +22,8 @@ class Billing(models.Model):
     
 
 class Payment(models.Model):
-    payment_id =custom_fields.SUBField(max_length=20, prefix='MET-', null=True, blank=True)
+    payment_id =custom_fields.SUBField(max_length=20, prefix='PAY-', null=True, blank=True)
     bill = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)
-    
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0.0)
     payment_date = models.DateTimeField(auto_now_add=True)
 
