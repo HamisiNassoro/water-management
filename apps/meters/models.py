@@ -24,11 +24,23 @@ class MeterReadManager(models.Manager):
         )  #### The queryset will be called only if the read_status is true
 
 class MeterTypes(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
+    type_name = models.CharField(max_length=100, null=True, blank=True)
+    type_code = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
+class PricingCategory(models.Model):
+    category_name = models.CharField(max_length=200, null=True, blank=True)
+    customer_rate = models.DecimalField(max_digits=8, decimal_places=4)
+    category_number = models.CharField(max_length=200, null=True, blank=True)
+    tax_rate = models.DecimalField(max_digits=8, decimal_places=4)
+
+class Concentrator(models.Model):
+    concentrator_name = models.CharField(max_length=200, null=True, blank=True)
+    concentrator_number = models.CharField(max_length=200, null=True, blank=True)
+    company_name = models.CharField(max_length=200, null=True, blank=True)
 class MeterManagement(TimeStampedUUIDModel):
     class MeterType(models.TextChoices):
         MECHANICAL = "Mechanical", _("Mechanical")
@@ -46,7 +58,19 @@ class MeterManagement(TimeStampedUUIDModel):
         related_name="meter_owner",
         on_delete=models.DO_NOTHING,
     )
-    type = models.ForeignKey(MeterTypes, null=True, blank=True, on_delete=models.PROTECT)
+    type = models.ForeignKey(
+        MeterTypes,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+        )
+    
+    concentrator = models.ForeignKey(
+        Concentrator,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+        )
     name = models.CharField(verbose_name=_("Site Name"), max_length=250)
     
     slug = AutoSlugField(

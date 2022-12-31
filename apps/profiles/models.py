@@ -51,3 +51,34 @@ class Profile(TimeStampedUUIDModel):
 
     def __str__(self):
         return f"{self.user.username}'s profile"
+
+class Company(models.Model):
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    company_number = models.CharField(max_length=200, null=True, blank=True)
+    company_description = models.TimeField(null=True, blank=True)
+
+class District(models.Model):
+    district_name = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    district_description = models.CharField(max_length=200, null=True, blank=True)
+    district_number = models.CharField(max_length=200, null=True, blank=True)
+
+class SalesStation(models.Model):
+    station_name = models.CharField(max_length=200, null=True, blank=True)
+    district = models.ForeignKey(District, null=True, blank=True, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    station_number = models.CharField(max_length=200, null=True, blank=True)
+
+class Customer(models.Model):
+    customer_name = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    customer_number = models.CharField(max_length=200, null=True, blank=True)
+    account_id= models.CharField(max_length=200, null=True, blank=True)
+    customer_address = models.CharField(max_length=200, null=True, blank=True)
+    customer_phone = models.CharField(max_length=200, null=True, blank=True)
+    customer_email = models.CharField(max_length=200, null=True, blank=True)
+    price_categories = models.CharField(max_length=200, null=True, blank=True)
+    meter_id = models.CharField(max_length=200, null=True, blank=True)
+    meter_type = models.CharField(max_length=200, null=True, blank=True)
+
+
