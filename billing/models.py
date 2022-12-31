@@ -30,4 +30,4 @@ class Payment(models.Model):
     payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.payment_id)
+        return str(self.payment_number)

@@ -29,7 +29,7 @@ class MeterTypes(models.Model):
     description = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.type_name
 
 class PricingCategory(models.Model):
     category_name = models.CharField(max_length=200, null=True, blank=True)
@@ -37,10 +37,15 @@ class PricingCategory(models.Model):
     category_number = models.CharField(max_length=200, null=True, blank=True)
     tax_rate = models.DecimalField(max_digits=8, decimal_places=4)
 
+    def __str__(self):
+        return self.category_name
 class Concentrator(models.Model):
     concentrator_name = models.CharField(max_length=200, null=True, blank=True)
     concentrator_number = models.CharField(max_length=200, null=True, blank=True)
     company_name = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.company_name
 class MeterManagement(TimeStampedUUIDModel):
     class MeterType(models.TextChoices):
         MECHANICAL = "Mechanical", _("Mechanical")

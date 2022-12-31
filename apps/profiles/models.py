@@ -57,18 +57,25 @@ class Company(models.Model):
     company_number = models.CharField(max_length=200, null=True, blank=True)
     company_description = models.TimeField(null=True, blank=True)
 
+    def __str__(self):
+        return self.company_name
+
 class District(models.Model):
     district_name = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
     district_description = models.CharField(max_length=200, null=True, blank=True)
     district_number = models.CharField(max_length=200, null=True, blank=True)
 
+    def __str__(self):
+        return self.district_name
 class SalesStation(models.Model):
     station_name = models.CharField(max_length=200, null=True, blank=True)
     district = models.ForeignKey(District, null=True, blank=True, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
     station_number = models.CharField(max_length=200, null=True, blank=True)
 
+    def __str__(self):
+        return self.station_name
 class Customer(models.Model):
     customer_name = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
@@ -80,5 +87,8 @@ class Customer(models.Model):
     price_categories = models.CharField(max_length=200, null=True, blank=True)
     meter_id = models.CharField(max_length=200, null=True, blank=True)
     meter_type = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.customer_name
 
 
