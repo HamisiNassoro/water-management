@@ -150,6 +150,7 @@ class MeterMutation(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     litre_usage = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
     end_reading = models.DecimalField(decimal_places=4, max_digits=12, null=True, blank=True)
+    
 
     objects = MeterMutationManager()
 
