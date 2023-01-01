@@ -89,3 +89,12 @@ class MeterReadingSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterReading
         fields = "__all__"
+
+###################################################################
+########################NEW RELATIONAL SERIALIZERS#################
+###################################################################
+
+class RegisterMeterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MeterManagement
+        fields = ['user', 'meter_type','current_reading','name']

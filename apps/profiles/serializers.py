@@ -1,7 +1,7 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import fields, serializers
 
-from .models import Profile
+from .models import Profile,Customer
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -55,3 +55,10 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
             "is_cutomer",
         ]
 
+###################################################################
+########################NEW RELATIONAL SERIALIZERS#################
+###################################################################
+class RegisterCustomerSerializer(serializers.ModelSerializer):
+    model = Customer
+    fields = ['user', 'customer_name', 'company', 'account_id', 'customer_address', 'customer_phone', 'meter']
+    
