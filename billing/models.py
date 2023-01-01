@@ -2,7 +2,7 @@ from django.db import models
 from base import fields as custom_fields
 
 from apps.meters.models import MeterManagement, UsageRate, UnitRate, MeterReading
-
+from apps.profiles.models import Customer
 class Billing(models.Model):
     meter = models.ForeignKey(MeterManagement,null=True,blank=True, on_delete=models.PROTECT)
     meter_reading = models.ForeignKey(MeterReading,null=True,blank=True, on_delete=models.PROTECT)
@@ -23,6 +23,7 @@ class Billing(models.Model):
 
 class Payment(models.Model):
     payment_number =custom_fields.SUBField(max_length=20, prefix='PAY-', null=True, blank=True)
+    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.PROTECT)
     meter = models.ForeignKey(MeterManagement, null=True,blank=True, on_delete=models.CASCADE)
     meter_reading = models.DecimalField(max_digits=8, decimal_places=4, null=True, blank=True)
     bill = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)

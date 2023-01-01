@@ -7,8 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.common.models import TimeStampedUUIDModel
 from apps.meters.models import  MeterManagement
-# Create your models here.
-
+from base import fields as custom_fields
 User = get_user_model()
 
 
@@ -89,9 +88,12 @@ class SalesStation(models.Model):
         verbose_name = "Sales Station"
         verbose_name_plural = "Sales Stations"
 class Customer(models.Model):
+    user = models.OneToOneField(User,null=True, blank=True, on_delete=models.CASCADE)
     customer_name = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
-    customer_number = models.CharField(max_length=200, null=True, blank=True)
+
+    customer_number = custom_fields.SUBField(max_length=20, prefix="CUST-", null=True, blank=True)
+    
     account_id= models.CharField(max_length=200, null=True, blank=True)
     customer_address = models.CharField(max_length=200, null=True, blank=True)
     customer_phone = models.CharField(max_length=200, null=True, blank=True)
