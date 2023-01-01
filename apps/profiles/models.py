@@ -103,7 +103,7 @@ class Customer(models.Model):
     meter_type = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return self.customer_name
+        return self.customer_number
 
     class Meta:
         verbose_name = "Customer"

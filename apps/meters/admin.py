@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .models import MeterManagement, UsageRate, UnitRate, MeterReading, MeterMutation
 from .models import *
-from billing.models import Billing
+from billing.models import Billing,Payment
 
 class MeterTypeAdmin(admin.ModelAdmin):
     list_display = ['type_name', 'type_code']
@@ -13,9 +13,9 @@ class PricingCategoryAdmin(admin.ModelAdmin):
 
 class ConcentratorAdmin(admin.ModelAdmin):
     list_display = ['concentrator_name', 'concentrator_number', 'company_name']
-class BillsInlineAdmin(admin.TabularInline):
-    model = Billing
-    fields = ('unit_rate', 'is_paid',)
+class PaymentInlineAdmin(admin.TabularInline):
+    model = Payment
+    fields = ('payment_number', 'customer', 'meter', 'meter_reading')
 class MeterManagementAdmin(admin.ModelAdmin):
     list_display = ["meter_code", "country",  "site_type",]
     list_filter = ["site_type", "country"]
@@ -32,7 +32,7 @@ class MeterManagementAdmin(admin.ModelAdmin):
         }),
     )"""
 
-    inlines = [BillsInlineAdmin]
+    inlines = [PaymentInlineAdmin]
 
 class UsageRateAdmin(admin.ModelAdmin):
     list_display = ["eff_date"]
