@@ -10,7 +10,8 @@ from django_countries.fields import CountryField
 from apps.common.models import TimeStampedUUIDModel
 from base import fields as custom_fields
 from django.db import transaction
-# Create your models here.
+
+#from apps.profiles.models import *
 
 User = get_user_model()
 
@@ -23,7 +24,7 @@ class MeterReadManager(models.Manager):
             .filter(read_status=True)
         )  #### The queryset will be called only if the read_status is true
 
-class MeterType(models.Model):
+class MeterTypes(models.Model):
     type_name = models.CharField(max_length=100, null=True, blank=True)
     type_code = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -74,7 +75,8 @@ class MeterManagement(TimeStampedUUIDModel):
         related_name="meter_owner",
         on_delete=models.DO_NOTHING,
     )
-    #type = models.ForeignKey(MeterType,null=True,blank=True,on_delete=models.PROTECT)
+    #company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    meter_type = models.ForeignKey(MeterTypes,null=True,blank=True,on_delete=models.PROTECT)
     
     concentrator = models.ForeignKey(
         Concentrator,

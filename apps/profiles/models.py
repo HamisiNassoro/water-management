@@ -6,7 +6,7 @@ from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.common.models import TimeStampedUUIDModel
-
+from apps.meters.models import  MeterManagement
 # Create your models here.
 
 User = get_user_model()
@@ -97,7 +97,7 @@ class Customer(models.Model):
     customer_phone = models.CharField(max_length=200, null=True, blank=True)
     customer_email = models.CharField(max_length=200, null=True, blank=True)
     price_categories = models.CharField(max_length=200, null=True, blank=True)
-    meter_id = models.CharField(max_length=200, null=True, blank=True)
+    meter = models.ForeignKey(MeterManagement, null=True, blank=True, on_delete=models.PROTECT)
     meter_type = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
