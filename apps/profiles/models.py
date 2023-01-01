@@ -60,6 +60,10 @@ class Company(models.Model):
     def __str__(self):
         return self.company_name
 
+    class Meta:
+        verbose_name = "Company"
+        verbose_name_plural = "Companies"
+
 class District(models.Model):
     district_name = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
@@ -68,6 +72,10 @@ class District(models.Model):
 
     def __str__(self):
         return self.district_name
+
+    class Meta:
+        verbose_name = "District"
+        verbose_name_plural = "Districts"
 class SalesStation(models.Model):
     station_name = models.CharField(max_length=200, null=True, blank=True)
     district = models.ForeignKey(District, null=True, blank=True, on_delete=models.CASCADE)
@@ -76,6 +84,10 @@ class SalesStation(models.Model):
 
     def __str__(self):
         return self.station_name
+
+    class Meta:
+        verbose_name = "Sales Station"
+        verbose_name_plural = "Sales Stations"
 class Customer(models.Model):
     customer_name = models.CharField(max_length=200, null=True, blank=True)
     company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
@@ -90,5 +102,9 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.customer_name
+
+    class Meta:
+        verbose_name = "Customer"
+        verbose_name_plural = "Customers"
 
 

@@ -23,7 +23,7 @@ class MeterReadManager(models.Manager):
             .filter(read_status=True)
         )  #### The queryset will be called only if the read_status is true
 
-class MeterTypes(models.Model):
+class MeterType(models.Model):
     type_name = models.CharField(max_length=100, null=True, blank=True)
     type_code = models.CharField(max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
@@ -31,6 +31,9 @@ class MeterTypes(models.Model):
     def __str__(self):
         return self.type_name
 
+    class Meta:
+        verbose_name = "Meter Type"
+        verbose_name_plural = "Meter Types"
 class PricingCategory(models.Model):
     category_name = models.CharField(max_length=200, null=True, blank=True)
     customer_rate = models.DecimalField(max_digits=8, decimal_places=4)
@@ -39,13 +42,21 @@ class PricingCategory(models.Model):
 
     def __str__(self):
         return self.category_name
+
+    class Meta:
+        verbose_name = "Pricing Category"
+        verbose_name_plural = "Pricing Categories"
 class Concentrator(models.Model):
     concentrator_name = models.CharField(max_length=200, null=True, blank=True)
     concentrator_number = models.CharField(max_length=200, null=True, blank=True)
     company_name = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
-        return self.company_name
+        return self.concentrator_name
+
+    class Meta:
+        verbose_name = "Concentrator"
+        verbose_name_plural = "Concentrators"
 class MeterManagement(TimeStampedUUIDModel):
     class MeterType(models.TextChoices):
         MECHANICAL = "Mechanical", _("Mechanical")
@@ -63,12 +74,7 @@ class MeterManagement(TimeStampedUUIDModel):
         related_name="meter_owner",
         on_delete=models.DO_NOTHING,
     )
-    type = models.ForeignKey(
-        MeterTypes,
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT
-        )
+    #type = models.ForeignKey(MeterType,null=True,blank=True,on_delete=models.PROTECT)
     
     concentrator = models.ForeignKey(
         Concentrator,
@@ -109,12 +115,7 @@ class MeterManagement(TimeStampedUUIDModel):
         validators=[MinValueValidator(1)],
         default=112,
     )
-    meter_type = models.CharField(
-        verbose_name=_("Meter Type"),
-        max_length=50,
-        choices=MeterType.choices,
-        default=MeterType.MECHANICAL,
-    )
+  
     site_type = models.CharField(
         verbose_name=_("Site Type"),
         max_length=50,

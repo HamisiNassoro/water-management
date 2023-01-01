@@ -8,8 +8,8 @@ class BillsInlineAdmin(admin.TabularInline):
     model = Billing
     fields = ('unit_rate', 'is_paid',)
 class MeterManagementAdmin(admin.ModelAdmin):
-    list_display = ["meter_code", "country", "meter_type", "site_type",]
-    list_filter = ["meter_type", "site_type", "country"]
+    list_display = ["meter_code", "country",  "site_type",]
+    list_filter = ["site_type", "country"]
 
     readonly_fields = (
         'meter_code',

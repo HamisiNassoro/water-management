@@ -31,3 +31,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return str(self.payment_number)
+
+    class Meta:
+        verbose_name = "Payment"
+        verbose_name_plural = "Payments"
