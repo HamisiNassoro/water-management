@@ -36,7 +36,7 @@ class MeterType(models.Model):
         verbose_name_plural = "Meter Types"
 class PricingCategory(models.Model):
     category_name = models.CharField(max_length=200, null=True, blank=True)
-    customer_rate = models.DecimalField(max_digits=8, decimal_places=4)
+    category_rate = models.DecimalField(max_digits=8, decimal_places=4)
     category_number = models.CharField(max_length=200, null=True, blank=True)
     tax_rate = models.DecimalField(max_digits=8, decimal_places=4)
 

@@ -2,8 +2,17 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from .models import MeterManagement, UsageRate, UnitRate, MeterReading, MeterMutation
-
+from .models import *
 from billing.models import Billing
+
+class MeterTypeAdmin(admin.ModelAdmin):
+    list_display = ['type_name', 'type_code']
+
+class PricingCategoryAdmin(admin.ModelAdmin):
+    list_display = ['category_name', 'category_rate', 'tax_rate', 'category_number' ]
+
+class ConcentratorAdmin(admin.ModelAdmin):
+    list_display = ['concentrator_name', 'concentrator_number', 'company_name']
 class BillsInlineAdmin(admin.TabularInline):
     model = Billing
     fields = ('unit_rate', 'is_paid',)
@@ -42,3 +51,6 @@ admin.site.register(UsageRate, UsageRateAdmin)
 admin.site.register(UnitRate, UnitRateAdmin)
 admin.site.register(MeterReading, MeterReadingAdmin)
 admin.site.register(MeterMutation, MeterMutationAdmin)
+admin.site.register(MeterType, MeterTypeAdmin)
+admin.site.register(PricingCategory, PricingCategoryAdmin)
+admin.site.register(Concentrator, ConcentratorAdmin)
