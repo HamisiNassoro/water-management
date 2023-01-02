@@ -77,7 +77,7 @@ class MeterManagement(TimeStampedUUIDModel):
     )
     #company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
     meter_type = models.ForeignKey(MeterTypes,null=True,blank=True,on_delete=models.PROTECT)
-    
+    pricing_category = models.ForeignKey(PricingCategory, null=True, blank=True, on_delete=models.CASCADE)
     concentrator = models.ForeignKey(
         Concentrator,
         null=True,

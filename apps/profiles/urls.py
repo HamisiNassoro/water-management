@@ -1,10 +1,10 @@
 from django.urls import path
 from .views import (SiteManagersListAPIView, MeterReadersListAPIView, CustomersListAPIView, GetProfileAPIView, UpdateProfileAPIView)
 
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import DefaultRouter
 from .views import CustomerViewSet
 
-router = SimpleRouter()
+router = DefaultRouter()
 router.register('customer', CustomerViewSet, 'customer')
 
 urlpatterns = [
