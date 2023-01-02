@@ -97,4 +97,11 @@ class MeterReadingSerializer(serializers.ModelSerializer):
 class MeterSerializer(serializers.ModelSerializer):
     class Meta:
         model = MeterManagement
-        fields = ['id','user','pricing_category', 'meter_type','description', 'current_reading','name','meter_code']
+        fields = [
+            'id',
+            'user',
+            'pricing_category',
+            'meter_type','description',
+            'current_reading',
+            'name','meter_code'
+        ]
