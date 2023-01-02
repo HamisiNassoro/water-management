@@ -6,9 +6,8 @@ from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 
 from apps.common.models import TimeStampedUUIDModel
-
-# Create your models here.
-
+from apps.meters.models import  MeterManagement
+from base import fields as custom_fields
 User = get_user_model()
 
 
@@ -51,3 +50,63 @@ class Profile(TimeStampedUUIDModel):
 
     def __str__(self):
         return f"{self.user.username}'s profile"
+
+class Company(models.Model):
+    company_name = models.CharField(max_length=200, null=True, blank=True)
+    company_number = models.CharField(max_length=200, null=True, blank=True)
+    company_description = models.TimeField(null=True, blank=True)
+
+    def __str__(self):
+        return self.company_name
+
+    class Meta:
+        verbose_name = "Company"
+        verbose_name_plural = "Companies"
+
+class District(models.Model):
+    district_name = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    district_description = models.CharField(max_length=200, null=True, blank=True)
+    district_number = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.district_name
+
+    class Meta:
+        verbose_name = "District"
+        verbose_name_plural = "Districts"
+class SalesStation(models.Model):
+    station_name = models.CharField(max_length=200, null=True, blank=True)
+    district = models.ForeignKey(District, null=True, blank=True, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    station_number = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return self.station_name
+
+    class Meta:
+        verbose_name = "Sales Station"
+        verbose_name_plural = "Sales Stations"
+class Customer(models.Model):
+    user = models.OneToOneField(User,null=True, blank=True, on_delete=models.CASCADE)
+    customer_name = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+
+    customer_number = custom_fields.SUBField(max_length=20, prefix="CUST-", null=True, blank=True)
+    
+    account_id= models.CharField(max_length=200, null=True, blank=True)
+    customer_address = models.CharField(max_length=200, null=True, blank=True)
+    customer_phone = models.CharField(max_length=200, null=True, blank=True)
+    customer_email = models.CharField(max_length=200, null=True, blank=True)
+    price_categories = models.CharField(max_length=200, null=True, blank=True)
+    meter = models.ForeignKey(MeterManagement, null=True, blank=True, on_delete=models.PROTECT)
+    meter_type = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.user)
+
+    class Meta:
+        verbose_name = "Customer"
+        verbose_name_plural = "Customers"
+
+

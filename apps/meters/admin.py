@@ -2,14 +2,23 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from .models import MeterManagement, UsageRate, UnitRate, MeterReading, MeterMutation
+from .models import *
+from billing.models import Billing,Payment
 
-from billing.models import Billing
-class BillsInlineAdmin(admin.TabularInline):
-    model = Billing
-    fields = ('unit_rate', 'is_paid',)
+class MeterTypeAdmin(admin.ModelAdmin):
+    list_display = ['type_name', 'type_code']
+
+class PricingCategoryAdmin(admin.ModelAdmin):
+    list_display = ['category_name', 'category_rate', 'tax_rate', 'category_number' ]
+
+class ConcentratorAdmin(admin.ModelAdmin):
+    list_display = ['concentrator_name', 'concentrator_number', 'company_name']
+class PaymentInlineAdmin(admin.TabularInline):
+    model = Payment
+    fields = ('payment_number', 'customer', 'meter', 'meter_reading')
 class MeterManagementAdmin(admin.ModelAdmin):
-    list_display = ["meter_code", "country", "meter_type", "site_type",]
-    list_filter = ["meter_type", "site_type", "country"]
+    list_display = ["meter_code", "country",  "site_type",]
+    list_filter = ["site_type", "country"]
 
     readonly_fields = (
         'meter_code',
@@ -23,7 +32,7 @@ class MeterManagementAdmin(admin.ModelAdmin):
         }),
     )"""
 
-    inlines = [BillsInlineAdmin]
+    inlines = [PaymentInlineAdmin]
 
 class UsageRateAdmin(admin.ModelAdmin):
     list_display = ["eff_date"]
@@ -42,3 +51,6 @@ admin.site.register(UsageRate, UsageRateAdmin)
 admin.site.register(UnitRate, UnitRateAdmin)
 admin.site.register(MeterReading, MeterReadingAdmin)
 admin.site.register(MeterMutation, MeterMutationAdmin)
+admin.site.register(MeterTypes, MeterTypeAdmin)
+admin.site.register(PricingCategory, PricingCategoryAdmin)
+admin.site.register(Concentrator, ConcentratorAdmin)

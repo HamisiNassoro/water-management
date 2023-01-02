@@ -12,8 +12,10 @@ from .exceptions import MeterNotFound
 from .models import MeterManagement,UnitRate,UsageRate,MeterReading
 from .pagination import MeterManagementPagination
 from .serializers import MeterManagementSerializer,MeterManagementCreateSerializer, UsageRateCreateSerializer,UnitRateCreateSerializer, MeterReadingCreateSerializer,UsageRateSerializer, UnitRateSerializer,MeterReadingSerializer
-
-# Create your views here.
+from .serializers import *
+from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import get_object_or_404, render
+from rest_framework.response import Response
 
 logger = logging.getLogger(__name__)
 
@@ -236,3 +238,22 @@ class MeterReadingListAPIView(generics.ListAPIView):
     # permission_classes = [permissions.IsAuthenticated]
     queryset = MeterReading.objects.all()
     serializer_class = MeterReadingSerializer
+
+
+###################################################################
+########################NEW RELATIONAL VIEWSETS#################
+###################################################################
+
+class MeterViewSet(ModelViewSet):
+    queryset = MeterManagement.objects.all()
+    serializer_class = MeterSerializer
+
+    def get_serializer_context(self):
+        return {'request': self.request}
+
+    def delete(self, request, pk):
+        meter = get_object_or_404(MeterManagement, pk=pk)
+
+        if meter.orderitems.count() > 0:
+            return Response({'error': 'Meter cannot be deleted'})
+        meter.delete()

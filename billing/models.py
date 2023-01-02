@@ -2,7 +2,7 @@ from django.db import models
 from base import fields as custom_fields
 
 from apps.meters.models import MeterManagement, UsageRate, UnitRate, MeterReading
-
+from apps.profiles.models import Customer
 class Billing(models.Model):
     meter = models.ForeignKey(MeterManagement,null=True,blank=True, on_delete=models.PROTECT)
     meter_reading = models.ForeignKey(MeterReading,null=True,blank=True, on_delete=models.PROTECT)
@@ -22,10 +22,17 @@ class Billing(models.Model):
     
 
 class Payment(models.Model):
-    payment_id =custom_fields.SUBField(max_length=20, prefix='PAY-', null=True, blank=True)
+    payment_number =custom_fields.SUBField(max_length=20, prefix='PAY-', null=True, blank=True)
+    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.PROTECT)
+    meter = models.ForeignKey(MeterManagement, null=True,blank=True, on_delete=models.CASCADE)
+    meter_reading = models.DecimalField(max_digits=8, decimal_places=4, null=True, blank=True)
     bill = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0.0)
     payment_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.payment_id)
+        return str(self.payment_number)
+
+    class Meta:
+        verbose_name = "Payment"
+        verbose_name_plural = "Payments"

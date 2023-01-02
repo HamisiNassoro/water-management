@@ -1,6 +1,11 @@
 from django.urls import path
 from .views import (SiteManagersListAPIView, MeterReadersListAPIView, CustomersListAPIView, GetProfileAPIView, UpdateProfileAPIView)
 
+from rest_framework.routers import SimpleRouter
+from .views import CustomerViewSet
+
+router = SimpleRouter()
+router.register('customer', CustomerViewSet, 'customer')
 
 urlpatterns = [
     path("me/", GetProfileAPIView.as_view(), name="get_profile"),
@@ -12,3 +17,4 @@ urlpatterns = [
     path("customers/all/", CustomersListAPIView.as_view(), name="all-customers"),
 
 ]
+urlpatterns += router.urls
