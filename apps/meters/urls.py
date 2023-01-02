@@ -1,6 +1,10 @@
 from django.urls import path
-
+from rest_framework.routers import SimpleRouter
 from . import views
+from .views import MeterViewSet
+
+router = SimpleRouter()
+router.register('meter', MeterViewSet, 'meter')
 
 urlpatterns = [
     path("all/", views.ListAllMetersAPIView.as_view(), name="all-meters"),
@@ -26,3 +30,5 @@ urlpatterns = [
     
 
 ]
+
+urlpatterns += router.urls

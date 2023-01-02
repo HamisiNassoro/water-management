@@ -59,5 +59,7 @@ class UpdateProfileSerializer(serializers.ModelSerializer):
 ########################NEW RELATIONAL SERIALIZERS#################
 ###################################################################
 class CustomerSerializer(serializers.ModelSerializer):
-    model = Customer
-    fields = ['user', 'customer_name', 'company', 'account_id', 'customer_address', 'customer_phone', 'meter']
+    
+    class Meta:
+        model = Customer
+        fields = ['user', 'customer_name', 'company', 'account_id', 'customer_address', 'customer_phone', 'meter']

@@ -6,7 +6,7 @@ from .serializers import PaymentSerializer
 from .models import Payment
 
 
-class MeterViewSet(ModelViewSet):
+class PaymentViewSet(ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
