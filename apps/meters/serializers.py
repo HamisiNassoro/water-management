@@ -101,7 +101,10 @@ class MeterSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'pricing_category',
-            'meter_type','description',
+            'meter_type',
+            'concentrator',
+            'description',
             'current_reading',
-            'name','meter_code'
+            'name',
+            'meter_code'
         ]
