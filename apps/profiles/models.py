@@ -65,7 +65,13 @@ class Company(models.Model):
 
 class District(models.Model):
     district_name = models.CharField(max_length=200, null=True, blank=True)
-    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    company = models.ForeignKey(
+        Company,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
     district_description = models.CharField(max_length=200, null=True, blank=True)
     district_number = models.CharField(max_length=200, null=True, blank=True)
 
@@ -77,8 +83,20 @@ class District(models.Model):
         verbose_name_plural = "Districts"
 class SalesStation(models.Model):
     station_name = models.CharField(max_length=200, null=True, blank=True)
-    district = models.ForeignKey(District, null=True, blank=True, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    district = models.ForeignKey(
+        District,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
+    company = models.ForeignKey(
+        Company,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
     station_number = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
@@ -88,18 +106,39 @@ class SalesStation(models.Model):
         verbose_name = "Sales Station"
         verbose_name_plural = "Sales Stations"
 class Customer(models.Model):
-    user = models.OneToOneField(User,null=True, blank=True, on_delete=models.CASCADE)
-    customer_name = models.CharField(max_length=200, null=True, blank=True)
-    company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
 
-    customer_number = custom_fields.SUBField(max_length=20, prefix="CUST-", null=True, blank=True)
+    customer_name = models.CharField(max_length=200, null=True, blank=True)
+    company = models.ForeignKey(
+        Company,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
+
+    customer_number = custom_fields.SUBField(
+        max_length=20,
+        prefix="CUST-",
+        null=True,
+        blank=True
+    )
     
     account_id= models.CharField(max_length=200, null=True, blank=True)
     customer_address = models.CharField(max_length=200, null=True, blank=True)
     customer_phone = models.CharField(max_length=200, null=True, blank=True)
     customer_email = models.CharField(max_length=200, null=True, blank=True)
     price_categories = models.CharField(max_length=200, null=True, blank=True)
-    meter = models.ForeignKey(MeterManagement, null=True, blank=True, on_delete=models.PROTECT)
+    meter = models.ForeignKey(
+        MeterManagement,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
     meter_type = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):

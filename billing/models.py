@@ -22,9 +22,25 @@ class Billing(models.Model):
     
 
 class Payment(models.Model):
-    payment_number =custom_fields.SUBField(max_length=20, prefix='PAY-', null=True, blank=True)
-    customer = models.ForeignKey(Customer, null=True, blank=True, on_delete=models.PROTECT)
-    meter = models.ForeignKey(MeterManagement, null=True,blank=True, on_delete=models.CASCADE)
+    payment_number =custom_fields.SUBField(
+        max_length=20,
+        prefix='PAY-',
+        null=True,
+        blank=True
+    )
+
+    customer = models.ForeignKey(
+        Customer,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
+    meter = models.ForeignKey(
+        MeterManagement,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
     meter_reading = models.DecimalField(max_digits=8, decimal_places=4, null=True, blank=True)
     bill = models.ForeignKey(Billing,null=True,blank=True, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits=8, decimal_places=2, default=0.0)
