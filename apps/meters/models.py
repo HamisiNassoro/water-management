@@ -76,14 +76,26 @@ class MeterManagement(TimeStampedUUIDModel):
         on_delete=models.DO_NOTHING,
     )
     #company = models.ForeignKey(Company, null=True, blank=True, on_delete=models.CASCADE)
-    meter_type = models.ForeignKey(MeterTypes,null=True,blank=True,on_delete=models.PROTECT)
-    pricing_category = models.ForeignKey(PricingCategory, null=True, blank=True, on_delete=models.CASCADE)
+    meter_type = models.ForeignKey(
+        MeterTypes,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT
+    )
+
+    pricing_category = models.ForeignKey(
+        PricingCategory,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
     concentrator = models.ForeignKey(
         Concentrator,
         null=True,
         blank=True,
         on_delete=models.PROTECT
-        )
+    )
+
     name = models.CharField(verbose_name=_("Site Name"), max_length=250)
     
     slug = AutoSlugField(
@@ -95,7 +107,13 @@ class MeterManagement(TimeStampedUUIDModel):
         unique=True,
         blank=True,
     )
-    meter_code = custom_fields.SUBField(max_length=10, prefix='MET-', null=True, blank=True)
+    meter_code = custom_fields.SUBField(
+        max_length=10,
+        prefix='MET-',
+        null=True,
+        blank=True
+    )
+
     description = models.TextField(
         verbose_name=_("Description"),
         default="Default description...update me please....",
