@@ -64,8 +64,8 @@ class CustomerSerializer(serializers.ModelSerializer):
         model = Customer
         fields = [
             'user',
-            'customer_name',
             'company',
+            'meter_type',
             'account_id',
             'customer_address',
             'customer_phone',

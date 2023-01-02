@@ -5,10 +5,15 @@ from rest_framework.response import Response
 from .serializers import PaymentSerializer
 from .models import Payment
 
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import PaymentFilter
+
 
 class PaymentViewSet(ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = PaymentFilter
 
     def get_serializer_context(self):
         return {'request': self.request}

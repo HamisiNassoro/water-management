@@ -10,7 +10,8 @@ from .serializers import ProfileSerializer, UpdateProfileSerializer,CustomerSeri
 from rest_framework.viewsets import ModelViewSet
 from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
-# Create your views here.
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import CustomerFilter
 
 class SiteManagersListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -80,6 +81,8 @@ class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CustomerFilter
     def get_serializer_context(self):
         return {'request': self.request}
 
