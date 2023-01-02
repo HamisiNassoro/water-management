@@ -83,7 +83,12 @@ class MeterManagement(TimeStampedUUIDModel):
         on_delete=models.PROTECT
     )
 
-    pricing_category = models.ForeignKey(PricingCategory, null=True, blank=True, on_delete=models.CASCADE)
+    pricing_category = models.ForeignKey(
+        PricingCategory,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE
+    )
     concentrator = models.ForeignKey(
         Concentrator,
         null=True,
@@ -108,7 +113,7 @@ class MeterManagement(TimeStampedUUIDModel):
         null=True,
         blank=True
     )
-    
+
     description = models.TextField(
         verbose_name=_("Description"),
         default="Default description...update me please....",

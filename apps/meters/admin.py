@@ -9,15 +9,34 @@ class MeterTypeAdmin(admin.ModelAdmin):
     list_display = ['type_name', 'type_code']
 
 class PricingCategoryAdmin(admin.ModelAdmin):
-    list_display = ['category_name', 'category_rate', 'tax_rate', 'category_number' ]
+    list_display = [
+        'category_name',
+        'category_rate',
+        'tax_rate',
+        'category_number'
+    ]
 
 class ConcentratorAdmin(admin.ModelAdmin):
-    list_display = ['concentrator_name', 'concentrator_number', 'company_name']
+    list_display = [
+        'concentrator_name',
+        'concentrator_number',
+        'company_name'
+    ]
 class PaymentInlineAdmin(admin.TabularInline):
     model = Payment
-    fields = ('payment_number', 'customer', 'meter', 'meter_reading')
+    fields = (
+        'payment_number',
+        'customer', 'meter',
+        'meter_reading'
+    )
 class MeterManagementAdmin(admin.ModelAdmin):
-    list_display = ["meter_code", "country",  "site_type",]
+    list_display = [
+        "user",
+        "meter_code",
+        "country",
+        "site_type",
+        "current_reading",
+    ]
     list_filter = ["site_type", "country"]
 
     readonly_fields = (

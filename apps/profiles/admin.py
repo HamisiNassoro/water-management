@@ -12,15 +12,34 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['company_name', 'company_number', 'company_description']
+    list_display = [
+        'company_name',
+        'company_number',
+        'company_description'
+    ]
 class DistrictAdmin(admin.ModelAdmin):
-    list_display = ['district_name', 'company', 'district_description', 'district_number']
+    list_display = [
+        'district_name',
+        'company',
+        'district_description',
+        'district_number'
+    ]
 
 class SalesStationAdmin(admin.ModelAdmin):
-    list_display = ['station_name', 'district', 'company', 'station_number']
+    list_display = [
+        'station_name',
+        'district',
+        'company',
+        'station_number'
+    ]
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['customer_name', 'customer_number', 'customer_address', 'meter_id']
+    list_display = [
+        'customer_name',
+        'customer_number',
+        'customer_address',
+        'meter_id'
+    ]
 
 
 admin.site.register(Profile, ProfileAdmin)
