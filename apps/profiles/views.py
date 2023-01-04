@@ -12,6 +12,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import CustomerFilter
+from rest_framework.filters import SearchFilter
 
 class SiteManagersListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -81,8 +82,9 @@ class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend,SearchFilter]
     filterset_class = CustomerFilter
+    search_fields = ['customer_name', 'customer_number']
     def get_serializer_context(self):
         return {'request': self.request}
 
