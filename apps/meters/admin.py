@@ -26,8 +26,11 @@ class PaymentInlineAdmin(admin.TabularInline):
     model = Payment
     fields = (
         'payment_number',
-        'customer', 'meter',
-        'meter_reading'
+        'customer',
+        'meter',
+        'meter_reading',
+        'amount',
+        'payment_date',
     )
 class MeterManagementAdmin(admin.ModelAdmin):
     list_display = [

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import *
-
+from billing.models import Payment
 # Register your models here.
 
 
@@ -33,6 +33,16 @@ class SalesStationAdmin(admin.ModelAdmin):
         'station_number'
     ]
 
+class PaymentInlineAdmin(admin.TabularInline):
+    model = Payment
+    fields = (
+        'payment_number',
+        'customer',
+        'meter',
+        'meter_reading',
+        'amount',
+        'payment_date',
+    )
 class CustomerAdmin(admin.ModelAdmin):
     list_display = [
         'customer_name',
@@ -40,6 +50,7 @@ class CustomerAdmin(admin.ModelAdmin):
         'customer_address',
         'meter_id'
     ]
+    inlines = [PaymentInlineAdmin]
 
 
 admin.site.register(Profile, ProfileAdmin)

@@ -7,13 +7,15 @@ from .models import Payment
 
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import PaymentFilter
+from rest_framework.filters import SearchFilter
 
 
 class PaymentViewSet(ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = PaymentFilter
+    search_fields = ['payment_number']
 
     def get_serializer_context(self):
         return {'request': self.request}

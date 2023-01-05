@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import MeterFilter
+from rest_framework.filters import SearchFilter
 
 logger = logging.getLogger(__name__)
 
@@ -249,8 +250,9 @@ class MeterReadingListAPIView(generics.ListAPIView):
 class MeterViewSet(ModelViewSet):
     queryset = MeterManagement.objects.all()
     serializer_class = MeterSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = MeterFilter
+    search_fields = ['meter_code']
 
     def get_serializer_context(self):
         return {'request': self.request}
