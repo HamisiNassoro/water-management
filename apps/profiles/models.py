@@ -18,10 +18,22 @@ class Gender(models.TextChoices):
 
 
 class Profile(TimeStampedUUIDModel):
+    """MEMBERSHIP_ADMIN = "A"
+    MEMBERSHIP_STAFF = "S"
+    MEMBERSHIP_CLIENT = "C"
+
+    MEMBERSHIP_CHOICES = [
+        (MEMBERSHIP_ADMIN, 'Admin'),
+        (MEMBERSHIP_STAFF, 'Staff'),
+        (MEMBERSHIP_CLIENT, 'Client'),
+    ]"""
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     phone_number = PhoneNumberField(
         verbose_name=_("Phone Number"), max_length=30, default="+254712345678"
     )
+    """membership = models.CharField(
+        max_length=50, choices=MEMBERSHIP_CHOICES,default=MEMBERSHIP_CLIENT
+    )"""
     about_me = models.TextField(
         verbose_name=_("About me"), default="say something about yourself"
     )
