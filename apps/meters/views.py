@@ -37,7 +37,7 @@ class MeterManagementFilter(django_filters.FilterSet):
 class ListAllMetersAPIView(generics.ListAPIView):
     serializer_class = MeterManagementSerializer
     queryset = MeterManagement.objects.all().order_by("-created_at")
-    pagination_class = MeterManagementPagination
+    # pagination_class = MeterManagementPagination
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
