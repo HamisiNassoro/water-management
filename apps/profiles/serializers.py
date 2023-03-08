@@ -9,6 +9,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source="user.first_name")
     last_name = serializers.CharField(source="user.last_name")
     email = serializers.EmailField(source="user.email")
+    is_staff = serializers.BooleanField(source="user.is_staff")
     full_name = serializers.SerializerMethodField(read_only=True)
     country = CountryField(name_only=True)
 
@@ -30,6 +31,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "site_manager",
             "meter_reader",
             "is_cutomer",
+            "is_staff",
         ]
 
     def get_full_name(self, obj):
